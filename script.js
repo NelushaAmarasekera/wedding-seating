@@ -16,6 +16,10 @@ const guests = [
   { firstName: "Kavindi", lastName: "Wijesinghe", table: 13 }
 ];
 
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 function findGuest() {
 
   const search = document
@@ -34,7 +38,6 @@ function findGuest() {
     return;
   }
 
-  // Split into words
   const words = search.split(/\s+/);
 
   // ---------- FULL NAME SEARCH ----------
@@ -70,7 +73,6 @@ function findGuest() {
 
       return;
     }
-
   }
 
   // ---------- FIRST NAME OR LAST NAME SEARCH ----------
@@ -81,7 +83,7 @@ function findGuest() {
 
   if (matches.length > 0) {
 
-    // If only one guest matches, show the welcome screen.
+    // One match → Welcome screen
     if (matches.length === 1) {
 
       const guest = matches[0];
@@ -107,19 +109,17 @@ function findGuest() {
       return;
     }
 
-    // Multiple guests found (family or duplicate first names)
-
-    let guestList = "";
-
+    // Multiple matches → Family list
     matches.sort((a,b) => a.table - b.table);
 
-    matches.forEach(g => {
+    let guestCards = "";
 
-      guestList += `
+    matches.forEach(g => {
+      guestCards += `
         <div class="guest-card">
 
-          <div class="guest-name">
-            ${g.firstName} ${g.lastName}
+          <div class="guest-details">
+            <div class="guest-name">${g.firstName} ${g.lastName}</div>
           </div>
 
           <div class="guest-table">
@@ -128,32 +128,28 @@ function findGuest() {
 
         </div>
       `;
-
     });
 
     result.innerHTML = `
       <h2>Guests Found</h2>
 
       <p class="message">
-        We found ${matches.length} guests with the name "<strong>${search.charAt(0).toUpperCase() + search.slice(1)}</strong>".
+        We found ${matches.length} guests matching
+        <strong>${capitalize(search)}</strong>.
       </p>
 
       <div class="guest-list">
-        ${guestList}
+        ${guestCards}
       </div>
     `;
 
     return;
-
   }
 
   // ---------- NO MATCH ----------
   result.innerHTML = `
     <h3>We couldn't find that name</h3>
 
-    <p>
-      Please check the spelling and try again, or speak to a member of our wedding team.
-    </p>
+    <p>Please check the spelling and try again, or speak to a member of our wedding team.</p>
   `;
-
 }

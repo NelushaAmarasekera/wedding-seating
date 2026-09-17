@@ -86,16 +86,20 @@ body{
 
 /* ---------- SEARCH BOX ---------- */
 
+.search-wrapper{
+    margin-bottom:24px;
+}
+
 input{
     width:100%;
-    padding:18px 22px;
-    margin-bottom:24px;
+    padding:20px 24px;
     border:1.5px solid #D8CAB9;
     background:#FEFCFA;
     border-radius:999px;
     font-size:16px;
     color:var(--brown);
-    transition:.25s ease;
+    transition:0.25s ease;
+    font-family:'Inter',sans-serif;
     text-align:center;
 }
 
@@ -106,7 +110,7 @@ input::placeholder{
 input:focus{
     outline:none;
     border-color:var(--brown);
-    box-shadow:0 0 0 4px rgba(75,46,36,.08);
+    box-shadow:0 0 0 4px rgba(75,46,36,0.08);
 }
 
 /* ---------- BUTTON ---------- */
@@ -188,36 +192,40 @@ button:hover{
     transform:scale(1.02);
 }
 
-/* ---------- MULTIPLE RESULTS ---------- */
+/* ---------- MULTIPLE GUEST RESULTS ---------- */
 
 .guest-list{
+    margin-top:28px;
     display:flex;
     flex-direction:column;
-    gap:18px;
-    margin-top:30px;
+    gap:16px;
 }
 
 .guest-card{
     background:#FEFCFA;
-    border:1px solid #E8DED4;
+    border:1px solid #E7DED3;
     border-radius:20px;
-    padding:22px 26px;
+    padding:22px 24px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    transition:.25s ease;
+    transition:0.25s ease;
 }
 
 .guest-card:hover{
     background:#FBF8F4;
     transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(75,46,36,0.08);
+}
+
+.guest-details{
+    text-align:left;
 }
 
 .guest-name{
     font-family:'Cormorant Garamond',serif;
     font-size:30px;
     color:var(--brown);
-    text-align:left;
 }
 
 .guest-table{
@@ -229,7 +237,8 @@ button:hover{
     font-weight:600;
     letter-spacing:1px;
     text-transform:uppercase;
-    min-width:95px;
+    min-width:96px;
+    text-align:center;
 }
 
 /* ---------- ANIMATION ---------- */
@@ -247,11 +256,11 @@ button:hover{
 
 /* ---------- MOBILE ---------- */
 
-@media(max-width:600px){
+@media (max-width:600px){
 
     .container{
-        padding:42px 24px;
-        border-radius:24px;
+        padding:40px 24px;
+        border-radius:22px;
     }
 
     .couple-names{
@@ -259,19 +268,19 @@ button:hover{
     }
 
     .welcome-heading{
-        font-size:26px;
+        font-size:24px;
     }
 
     .title{
-        font-size:34px;
-    }
-
-    #result h2{
-        font-size:34px;
+        font-size:32px;
     }
 
     #result h1{
-        font-size:64px;
+        font-size:58px;
+    }
+
+    #result h2{
+        font-size:30px;
     }
 
     .guest-card{
@@ -280,8 +289,11 @@ button:hover{
         text-align:center;
     }
 
-    .guest-name{
+    .guest-details{
         text-align:center;
+    }
+
+    .guest-name{
         font-size:28px;
     }
 }
