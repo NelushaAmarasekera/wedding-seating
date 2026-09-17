@@ -16,19 +16,11 @@ const guests = [
   { firstName: "Kavindi", lastName: "Wijesinghe", table: 13 }
 ];
 
-// ---------------- FIND GUEST ----------------
-
 function findGuest() {
 
-  const search = document
-    .getElementById("searchName")
-    .value
-    .trim()
-    .toLowerCase();
-
+  const search = document.getElementById("searchName").value.trim().toLowerCase();
   const result = document.getElementById("result");
 
-  // Empty search
   if (search === "") {
     result.innerHTML = `
       <h3>Please enter a name</h3>
@@ -37,23 +29,22 @@ function findGuest() {
     return;
   }
 
-  // 1️⃣ Check for an exact FULL NAME match first
-  const fullGuest = guests.find(g =>
-    `${g.firstName} ${g.lastName}`.toLowerCase() === search
+  // ---------- FULL NAME SEARCH ----------
+  const fullMatch = guests.find(g =>
+    (`${g.firstName} ${g.lastName}`).toLowerCase() === search
   );
 
-  if (fullGuest) {
-    showSingleGuest(fullGuest);
+  if (fullMatch) {
+    showGuest(fullMatch);
     return;
   }
 
-  // 2️⃣ Otherwise search first OR last name
+  // ---------- FIRST NAME / LAST NAME SEARCH ----------
   const matches = guests.filter(g =>
     g.firstName.toLowerCase() === search ||
     g.lastName.toLowerCase() === search
   );
 
-  // No guest found
   if (matches.length === 0) {
     result.innerHTML = `
       <h3>We couldn't find that name</h3>
@@ -62,30 +53,22 @@ function findGuest() {
     return;
   }
 
-  // Only one guest found
+  // ---------- SINGLE MATCH ----------
   if (matches.length === 1) {
-    showSingleGuest(matches[0]);
+    showGuest(matches[0]);
     return;
   }
 
-  // More than one guest found (Ashan / Amarasekera / Wijesinghe etc.)
+  // ---------- MULTIPLE MATCHES ----------
+  matches.sort((a,b) => a.table - b.table);
 
-  matches.sort((a, b) => a.table - b.table);
-
-  let guestCards = "";
+  let cards = "";
 
   matches.forEach(g => {
-    guestCards += `
+    cards += `
       <div class="guest-card">
-
-        <div class="guest-details">
-          <div class="guest-name">${g.firstName} ${g.lastName}</div>
-        </div>
-
-        <div class="guest-table">
-          Table ${g.table}
-        </div>
-
+        <div class="guest-name">${g.firstName} ${g.lastName}</div>
+        <div class="guest-table">Table ${g.table}</div>
       </div>
     `;
   });
@@ -98,24 +81,19 @@ function findGuest() {
     </p>
 
     <div class="guest-list">
-      ${guestCards}
+      ${cards}
     </div>
 
     <p class="message seating-message">
       Here is the seating plan so you can see where everyone is seated.
     </p>
 
-    <img
-      src="floorplan.png"
-      alt="Wedding Floor Plan"
-      class="floorplan"
-    >
+    <img src="floorplan.png" class="floorplan" alt="Wedding Floor Plan">
   `;
 }
 
-// ---------------- SINGLE GUEST SCREEN ----------------
-
-function showSingleGuest(guest) {
+// ---------- PERSONAL WELCOME SCREEN ----------
+function showGuest(guest){
 
   const result = document.getElementById("result");
 
@@ -130,10 +108,6 @@ function showSingleGuest(guest) {
       We are so grateful you're here to celebrate this chapter with us.
     </p>
 
-    <img
-      src="floorplan.png"
-      alt="Wedding Floor Plan"
-      class="floorplan"
-    >
+    <img src="floorplan.png" class="floorplan" alt="Wedding Floor Plan">
   `;
 }
