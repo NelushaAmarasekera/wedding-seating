@@ -17,6 +17,7 @@ const guests = [
 ];
 
 function findGuest() {
+
   const firstName = document
     .getElementById("firstName")
     .value
@@ -29,16 +30,28 @@ function findGuest() {
     .trim()
     .toLowerCase();
 
-  const guest = guests.find(
-    g =>
-      g.firstName.toLowerCase() === firstName &&
-      g.lastName.toLowerCase() === lastName
-  );
-
   const result = document.getElementById("result");
 
-  if (guest) {
+  // Nothing entered
+  if (!firstName && !lastName) {
     result.innerHTML = `
+      <h3>Please enter a name</h3>
+      <p>Enter your first name, last name, or both to find your table.</p>
+    `;
+    return;
+  }
+
+  // BOTH first and last name entered → Single guest
+  if (firstName && lastName) {
+
+    const guest = guests.find(g =>
+      g.firstName.toLowerCase() === firstName &&
+      g.lastName.toLowerCase() === lastName
+    );
+
+    if (guest) {
+
+      result.innerHTML = `
         <h2>Welcome, ${guest.firstName} ${guest.lastName}</h2>
 
         <p class="table-label">Your table is</p>
@@ -46,20 +59,74 @@ function findGuest() {
         <h1>${guest.table}</h1>
 
         <p class="message">
-            We are so grateful you're here to celebrate this chapter with us.
+          We are so grateful you're here to celebrate this chapter with us.
         </p>
 
         <img
-            src="./floorplan.png"
-            alt="Wedding Floor Plan"
-            class="floorplan"
+          src="./floorplan.png"
+          alt="Wedding Floor Plan"
+          class="floorplan"
         >
-        `;
-  } else {
-    result.innerHTML = `
+      `;
+
+    } else {
+
+      result.innerHTML = `
         <h3>We couldn't find your name</h3>
 
-        <p>Please check the spelling of your first and last name, or speak to a member of our wedding team for assistance.</p>
-        `;
+        <p>Please check the spelling of your first and last name and try again.</p>
+      `;
+    }
+
+    return;
   }
+
+  // ONLY first name OR ONLY last name entered
+  const matches = guests.filter(g => {
+
+    if (firstName) {
+      return g.firstName.toLowerCase() === firstName;
+    }
+
+    return g.lastName.toLowerCase() === lastName;
+
+  });
+
+  if (matches.length > 0) {
+
+    let guestList = "";
+
+    matches.forEach(g => {
+
+      guestList += `
+        <div class="guest-card">
+          <div class="guest-name">${g.firstName} ${g.lastName}</div>
+          <div class="guest-table">Table ${g.table}</div>
+        </div>
+      `;
+
+    });
+
+    result.innerHTML = `
+      <h2>Guests Found</h2>
+
+      <p class="message">
+        We found ${matches.length} guest${matches.length > 1 ? "s" : ""}.
+      </p>
+
+      <div class="guest-list">
+        ${guestList}
+      </div>
+    `;
+
+  } else {
+
+    result.innerHTML = `
+      <h3>We couldn't find that name</h3>
+
+      <p>Please check the spelling and try again.</p>
+    `;
+
+  }
+
 }
