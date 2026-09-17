@@ -16,10 +16,6 @@ const guests = [
   { firstName: "Kavindi", lastName: "Wijesinghe", table: 13 }
 ];
 
-function capitalize(text) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
-
 function findGuest() {
 
   const search = document
@@ -38,13 +34,14 @@ function findGuest() {
     return;
   }
 
-  const words = search.split(/\s+/);
+  // Split into words
+  const parts = search.split(/\s+/);
 
   // ---------- FULL NAME SEARCH ----------
-  if (words.length >= 2) {
+  if (parts.length >= 2) {
 
-    const first = words[0];
-    const last = words.slice(1).join(" ");
+    const first = parts[0];
+    const last = parts.slice(1).join(" ");
 
     const guest = guests.find(g =>
       g.firstName.toLowerCase() === first &&
@@ -52,25 +49,7 @@ function findGuest() {
     );
 
     if (guest) {
-
-      result.innerHTML = `
-        <h2>Welcome, ${guest.firstName} ${guest.lastName}</h2>
-
-        <p class="table-label">Your table is</p>
-
-        <h1>${guest.table}</h1>
-
-        <p class="message">
-          We are so grateful you're here to celebrate this chapter with us.
-        </p>
-
-        <img
-          src="./floorplan.png"
-          alt="Wedding Floor Plan"
-          class="floorplan"
-        >
-      `;
-
+      showSingleGuest(guest);
       return;
     }
   }
@@ -81,51 +60,22 @@ function findGuest() {
     g.lastName.toLowerCase() === search
   );
 
-  if (matches.length > 0) {
+  if (matches.length === 1) {
+    showSingleGuest(matches[0]);
+    return;
+  }
 
-    // One match → Welcome screen
-    if (matches.length === 1) {
+  if (matches.length > 1) {
 
-      const guest = matches[0];
+    matches.sort((a,b)=>a.table-b.table);
 
-      result.innerHTML = `
-        <h2>Welcome, ${guest.firstName} ${guest.lastName}</h2>
+    let cards = "";
 
-        <p class="table-label">Your table is</p>
-
-        <h1>${guest.table}</h1>
-
-        <p class="message">
-          We are so grateful you're here to celebrate this chapter with us.
-        </p>
-
-        <img
-          src="./floorplan.png"
-          alt="Wedding Floor Plan"
-          class="floorplan"
-        >
-      `;
-
-      return;
-    }
-
-    // Multiple matches → Family list
-    matches.sort((a,b) => a.table - b.table);
-
-    let guestCards = "";
-
-    matches.forEach(g => {
-      guestCards += `
+    matches.forEach(g=>{
+      cards += `
         <div class="guest-card">
-
-          <div class="guest-details">
-            <div class="guest-name">${g.firstName} ${g.lastName}</div>
-          </div>
-
-          <div class="guest-table">
-            Table ${g.table}
-          </div>
-
+          <div class="guest-name">${g.firstName} ${g.lastName}</div>
+          <div class="guest-table">Table ${g.table}</div>
         </div>
       `;
     });
@@ -134,22 +84,44 @@ function findGuest() {
       <h2>Guests Found</h2>
 
       <p class="message">
-        We found ${matches.length} guests matching
-        <strong>${capitalize(search)}</strong>.
+        We found ${matches.length} guests matching "<strong>${search}</strong>".
       </p>
 
       <div class="guest-list">
-        ${guestCards}
+        ${cards}
       </div>
     `;
 
     return;
   }
 
-  // ---------- NO MATCH ----------
+  // ---------- NOT FOUND ----------
   result.innerHTML = `
     <h3>We couldn't find that name</h3>
 
-    <p>Please check the spelling and try again, or speak to a member of our wedding team.</p>
+    <p>Please check the spelling and try again.</p>
+  `;
+}
+
+function showSingleGuest(guest){
+
+  const result = document.getElementById("result");
+
+  result.innerHTML = `
+    <h2>Welcome, ${guest.firstName} ${guest.lastName}</h2>
+
+    <p class="table-label">Your table is</p>
+
+    <h1>${guest.table}</h1>
+
+    <p class="message">
+      We are so grateful you're here to celebrate this chapter with us.
+    </p>
+
+    <img
+    src="floorplan.png"
+    alt="Wedding Floor Plan"
+    class="floorplan"
+    >
   `;
 }
