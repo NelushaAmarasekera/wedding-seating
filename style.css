@@ -180,6 +180,15 @@ button:hover{
     margin:0 auto 30px;
 }
 
+.seating-message{
+    margin-top:34px;
+    margin-bottom:22px;
+    font-family:'Cormorant Garamond', serif;
+    font-size:22px;
+    color:var(--brown-light);
+    font-style:italic;
+}
+
 #result h3{
     font-family:'Cormorant Garamond',serif;
     color:#7A3F30;

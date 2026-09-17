@@ -81,15 +81,26 @@ function findGuest() {
     });
 
     result.innerHTML = `
-      <h2>Guests Found</h2>
+    <h2>Guests Found</h2>
 
-      <p class="message">
-        We found ${matches.length} guests matching "<strong>${search}</strong>".
-      </p>
+    <p class="message">
+        We found ${matches.length} guests matching
+        <strong>${capitalize(search)}</strong>.
+    </p>
 
-      <div class="guest-list">
-        ${cards}
-      </div>
+    <div class="guest-list">
+        ${guestCards}
+    </div>
+
+    <p class="message seating-message">
+        Here is the seating plan so you can see where everyone is seated.
+    </p>
+
+    <img
+        src="floorplan.png"
+        alt="Wedding Floor Plan"
+        class="floorplan"
+    >
     `;
 
     return;
