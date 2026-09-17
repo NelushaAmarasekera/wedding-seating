@@ -16,41 +16,36 @@
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <p class="chapter">16 January 2027</p>
+  <p class="chapter">16 January 2027</p>
 
-    <h2 class="welcome-heading">Welcome to the story of</h2>
+  <h2 class="welcome-heading">Welcome to the story of</h2>
 
-    <h1 class="couple-names">Nelusha & Ashan</h1>
+  <h1 class="couple-names">Nelusha & Ashan</h1>
 
-    <div class="divider"></div>
+  <div class="divider"></div>
 
-    <h3 class="title">Wedding Seating Plan</h3>
+  <h3 class="title">Wedding Seating Plan</h3>
 
-    <p class="subtitle">
-    Please enter your first and last name to find your table.
-    </p>
+  <p class="subtitle">
+    Enter your first name, last name, or full name to find your table.
+  </p>
 
-    <input
-      type="text"
-      id="firstName"
-      placeholder="First Name"
-    >
+  <input
+    type="text"
+    id="searchName"
+    placeholder="First name, last name, or full name"
+    onkeydown="if(event.key==='Enter') findGuest()"
+  >
 
-    <input
-      type="text"
-      id="lastName"
-      placeholder="Last Name"
-    >
+  <button onclick="findGuest()">
+    Find My Table
+  </button>
 
-    <button onclick="findGuest()">
-      Find My Table
-    </button>
+  <div id="result"></div>
 
-    <div id="result"></div>
-
-  </div>
+</div>
 
   <script src="script.js"></script>
 

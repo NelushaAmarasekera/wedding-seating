@@ -18,35 +18,34 @@ const guests = [
 
 function findGuest() {
 
-  const firstName = document
-    .getElementById("firstName")
-    .value
-    .trim()
-    .toLowerCase();
-
-  const lastName = document
-    .getElementById("lastName")
+  const search = document
+    .getElementById("searchName")
     .value
     .trim()
     .toLowerCase();
 
   const result = document.getElementById("result");
 
-  // Nothing entered
-  if (!firstName && !lastName) {
+  if (!search) {
     result.innerHTML = `
       <h3>Please enter a name</h3>
-      <p>Enter your first name, last name, or both to find your table.</p>
+      <p>Enter your first name, last name, or full name to find your table.</p>
     `;
     return;
   }
 
-  // BOTH first and last name entered → Single guest
-  if (firstName && lastName) {
+  // Split into words
+  const words = search.split(/\s+/);
+
+  // ---------- FULL NAME SEARCH ----------
+  if (words.length >= 2) {
+
+    const first = words[0];
+    const last = words.slice(1).join(" ");
 
     const guest = guests.find(g =>
-      g.firstName.toLowerCase() === firstName &&
-      g.lastName.toLowerCase() === lastName
+      g.firstName.toLowerCase() === first &&
+      g.lastName.toLowerCase() === last
     );
 
     if (guest) {
@@ -69,39 +68,64 @@ function findGuest() {
         >
       `;
 
-    } else {
-
-      result.innerHTML = `
-        <h3>We couldn't find your name</h3>
-
-        <p>Please check the spelling of your first and last name and try again.</p>
-      `;
+      return;
     }
 
-    return;
   }
 
-  // ONLY first name OR ONLY last name entered
-  const matches = guests.filter(g => {
-
-    if (firstName) {
-      return g.firstName.toLowerCase() === firstName;
-    }
-
-    return g.lastName.toLowerCase() === lastName;
-
-  });
+  // ---------- FIRST NAME OR LAST NAME SEARCH ----------
+  const matches = guests.filter(g =>
+    g.firstName.toLowerCase() === search ||
+    g.lastName.toLowerCase() === search
+  );
 
   if (matches.length > 0) {
 
+    // If only one guest matches, show the welcome screen.
+    if (matches.length === 1) {
+
+      const guest = matches[0];
+
+      result.innerHTML = `
+        <h2>Welcome, ${guest.firstName} ${guest.lastName}</h2>
+
+        <p class="table-label">Your table is</p>
+
+        <h1>${guest.table}</h1>
+
+        <p class="message">
+          We are so grateful you're here to celebrate this chapter with us.
+        </p>
+
+        <img
+          src="./floorplan.png"
+          alt="Wedding Floor Plan"
+          class="floorplan"
+        >
+      `;
+
+      return;
+    }
+
+    // Multiple guests found (family or duplicate first names)
+
     let guestList = "";
+
+    matches.sort((a,b) => a.table - b.table);
 
     matches.forEach(g => {
 
       guestList += `
         <div class="guest-card">
-          <div class="guest-name">${g.firstName} ${g.lastName}</div>
-          <div class="guest-table">Table ${g.table}</div>
+
+          <div class="guest-name">
+            ${g.firstName} ${g.lastName}
+          </div>
+
+          <div class="guest-table">
+            Table ${g.table}
+          </div>
+
         </div>
       `;
 
@@ -111,7 +135,7 @@ function findGuest() {
       <h2>Guests Found</h2>
 
       <p class="message">
-        We found ${matches.length} guest${matches.length > 1 ? "s" : ""}.
+        We found ${matches.length} guests with the name "<strong>${search.charAt(0).toUpperCase() + search.slice(1)}</strong>".
       </p>
 
       <div class="guest-list">
@@ -119,14 +143,17 @@ function findGuest() {
       </div>
     `;
 
-  } else {
-
-    result.innerHTML = `
-      <h3>We couldn't find that name</h3>
-
-      <p>Please check the spelling and try again.</p>
-    `;
+    return;
 
   }
+
+  // ---------- NO MATCH ----------
+  result.innerHTML = `
+    <h3>We couldn't find that name</h3>
+
+    <p>
+      Please check the spelling and try again, or speak to a member of our wedding team.
+    </p>
+  `;
 
 }
