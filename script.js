@@ -16,7 +16,10 @@ const guests = [
   { firstName: "Kavindi", lastName: "Wijesinghe", table: 13 }
 ];
 
+// ---------------- FIND GUEST ----------------
+
 function findGuest() {
+
   const search = document
     .getElementById("searchName")
     .value
@@ -25,6 +28,7 @@ function findGuest() {
 
   const result = document.getElementById("result");
 
+  // Empty search
   if (search === "") {
     result.innerHTML = `
       <h3>Please enter a name</h3>
@@ -33,33 +37,23 @@ function findGuest() {
     return;
   }
 
-  // Split search into words
-  const parts = search.split(/\s+/);
-
-  // FULL NAME SEARCH (e.g. "Ashan Senanayake")
-  if (parts.length >= 2) {
-    const first = parts[0];
-    const last = parts.slice(1).join(" ");
-
-    const guest = guests.find(
-      g =>
-        g.firstName.toLowerCase() === first &&
-        g.lastName.toLowerCase() === last
-    );
-
-    if (guest) {
-      showGuest(guest);
-      return;
-    }
-  }
-
-  // FIRST NAME OR LAST NAME SEARCH
-  const matches = guests.filter(
-    g =>
-      g.firstName.toLowerCase() === search ||
-      g.lastName.toLowerCase() === search
+  // 1️⃣ Check for an exact FULL NAME match first
+  const fullGuest = guests.find(g =>
+    `${g.firstName} ${g.lastName}`.toLowerCase() === search
   );
 
+  if (fullGuest) {
+    showSingleGuest(fullGuest);
+    return;
+  }
+
+  // 2️⃣ Otherwise search first OR last name
+  const matches = guests.filter(g =>
+    g.firstName.toLowerCase() === search ||
+    g.lastName.toLowerCase() === search
+  );
+
+  // No guest found
   if (matches.length === 0) {
     result.innerHTML = `
       <h3>We couldn't find that name</h3>
@@ -68,13 +62,14 @@ function findGuest() {
     return;
   }
 
-  // ONE MATCH → Welcome screen
+  // Only one guest found
   if (matches.length === 1) {
-    showGuest(matches[0]);
+    showSingleGuest(matches[0]);
     return;
   }
 
-  // MULTIPLE MATCHES → List + Floor Plan
+  // More than one guest found (Ashan / Amarasekera / Wijesinghe etc.)
+
   matches.sort((a, b) => a.table - b.table);
 
   let guestCards = "";
@@ -82,8 +77,15 @@ function findGuest() {
   matches.forEach(g => {
     guestCards += `
       <div class="guest-card">
-        <div class="guest-name">${g.firstName} ${g.lastName}</div>
-        <div class="guest-table">Table ${g.table}</div>
+
+        <div class="guest-details">
+          <div class="guest-name">${g.firstName} ${g.lastName}</div>
+        </div>
+
+        <div class="guest-table">
+          Table ${g.table}
+        </div>
+
       </div>
     `;
   });
@@ -111,8 +113,10 @@ function findGuest() {
   `;
 }
 
-// Welcome screen for a single guest
-function showGuest(guest) {
+// ---------------- SINGLE GUEST SCREEN ----------------
+
+function showSingleGuest(guest) {
+
   const result = document.getElementById("result");
 
   result.innerHTML = `
