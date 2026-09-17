@@ -163,6 +163,25 @@ button:hover{
     margin:18px 0;
     letter-spacing:1px;
 }
+.table-label{
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #B5966A;
+    font-size: 13px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.message{
+    color: #6B5A52;
+    line-height: 1.8;
+    margin-bottom: 26px;
+    font-size: 16px;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* Paragraph */
 

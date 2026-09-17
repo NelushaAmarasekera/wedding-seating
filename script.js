@@ -41,9 +41,13 @@ function findGuest() {
     result.innerHTML = `
         <h2>Welcome, ${guest.firstName} ${guest.lastName}</h2>
 
-        <h1>Table ${guest.table}</h1>
+        <p class="table-label">Your table is</p>
 
-        <p>Your seat has been reserved for you. We can't wait to celebrate with you.</p>
+        <h1>${guest.table}</h1>
+
+        <p class="message">
+            We are so grateful you're here to celebrate this chapter with us.
+        </p>
 
         <img
             src="./floorplan.png"
