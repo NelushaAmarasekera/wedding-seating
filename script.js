@@ -17,7 +17,6 @@ const guests = [
 ];
 
 function findGuest() {
-
   const search = document
     .getElementById("searchName")
     .value
@@ -26,7 +25,7 @@ function findGuest() {
 
   const result = document.getElementById("result");
 
-  if (!search) {
+  if (search === "") {
     result.innerHTML = `
       <h3>Please enter a name</h3>
       <p>Enter your first name, last name, or full name to find your table.</p>
@@ -34,88 +33,86 @@ function findGuest() {
     return;
   }
 
-  // Split into words
+  // Split search into words
   const parts = search.split(/\s+/);
 
-  // ---------- FULL NAME SEARCH ----------
+  // FULL NAME SEARCH (e.g. "Ashan Senanayake")
   if (parts.length >= 2) {
-
     const first = parts[0];
     const last = parts.slice(1).join(" ");
 
-    const guest = guests.find(g =>
-      g.firstName.toLowerCase() === first &&
-      g.lastName.toLowerCase() === last
+    const guest = guests.find(
+      g =>
+        g.firstName.toLowerCase() === first &&
+        g.lastName.toLowerCase() === last
     );
 
     if (guest) {
-      showSingleGuest(guest);
+      showGuest(guest);
       return;
     }
   }
 
-  // ---------- FIRST NAME OR LAST NAME SEARCH ----------
-  const matches = guests.filter(g =>
-    g.firstName.toLowerCase() === search ||
-    g.lastName.toLowerCase() === search
+  // FIRST NAME OR LAST NAME SEARCH
+  const matches = guests.filter(
+    g =>
+      g.firstName.toLowerCase() === search ||
+      g.lastName.toLowerCase() === search
   );
 
-  if (matches.length === 1) {
-    showSingleGuest(matches[0]);
+  if (matches.length === 0) {
+    result.innerHTML = `
+      <h3>We couldn't find that name</h3>
+      <p>Please check the spelling and try again.</p>
+    `;
     return;
   }
 
-  if (matches.length > 1) {
+  // ONE MATCH → Welcome screen
+  if (matches.length === 1) {
+    showGuest(matches[0]);
+    return;
+  }
 
-    matches.sort((a,b)=>a.table-b.table);
+  // MULTIPLE MATCHES → List + Floor Plan
+  matches.sort((a, b) => a.table - b.table);
 
-    let cards = "";
+  let guestCards = "";
 
-    matches.forEach(g=>{
-      cards += `
-        <div class="guest-card">
-          <div class="guest-name">${g.firstName} ${g.lastName}</div>
-          <div class="guest-table">Table ${g.table}</div>
-        </div>
-      `;
-    });
+  matches.forEach(g => {
+    guestCards += `
+      <div class="guest-card">
+        <div class="guest-name">${g.firstName} ${g.lastName}</div>
+        <div class="guest-table">Table ${g.table}</div>
+      </div>
+    `;
+  });
 
-    result.innerHTML = `
+  result.innerHTML = `
     <h2>Guests Found</h2>
 
     <p class="message">
-        We found ${matches.length} guests matching
-        <strong>${capitalize(search)}</strong>.
+      We found ${matches.length} guests matching "<strong>${search}</strong>".
     </p>
 
     <div class="guest-list">
-        ${guestCards}
+      ${guestCards}
     </div>
 
     <p class="message seating-message">
-        Here is the seating plan so you can see where everyone is seated.
+      Here is the seating plan so you can see where everyone is seated.
     </p>
 
     <img
-        src="floorplan.png"
-        alt="Wedding Floor Plan"
-        class="floorplan"
+      src="floorplan.png"
+      alt="Wedding Floor Plan"
+      class="floorplan"
     >
-    `;
-
-    return;
-  }
-
-  // ---------- NOT FOUND ----------
-  result.innerHTML = `
-    <h3>We couldn't find that name</h3>
-
-    <p>Please check the spelling and try again.</p>
   `;
 }
 
-function showSingleGuest(guest){
-
+// Welcome screen for a single guest
+function showGuest(guest) {
   const result = document.getElementById("result");
 
   result.innerHTML = `
@@ -130,9 +127,9 @@ function showSingleGuest(guest){
     </p>
 
     <img
-    src="floorplan.png"
-    alt="Wedding Floor Plan"
-    class="floorplan"
+      src="floorplan.png"
+      alt="Wedding Floor Plan"
+      class="floorplan"
     >
   `;
 }
