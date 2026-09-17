@@ -17,7 +17,6 @@ const guests = [
 ];
 
 function findGuest() {
-
   const search = document.getElementById("searchName").value.trim().toLowerCase();
   const result = document.getElementById("result");
 
@@ -29,20 +28,20 @@ function findGuest() {
     return;
   }
 
-  // ---------- FULL NAME SEARCH ----------
-  const fullMatch = guests.find(g =>
-    (`${g.firstName} ${g.lastName}`).toLowerCase() === search
+  // Full name match
+  const fullGuest = guests.find(guest =>
+    `${guest.firstName} ${guest.lastName}`.toLowerCase() === search
   );
 
-  if (fullMatch) {
-    showGuest(fullMatch);
+  if (fullGuest) {
+    displayGuest(fullGuest);
     return;
   }
 
-  // ---------- FIRST NAME / LAST NAME SEARCH ----------
-  const matches = guests.filter(g =>
-    g.firstName.toLowerCase() === search ||
-    g.lastName.toLowerCase() === search
+  // First OR last name match
+  const matches = guests.filter(guest =>
+    guest.firstName.toLowerCase() === search ||
+    guest.lastName.toLowerCase() === search
   );
 
   if (matches.length === 0) {
@@ -53,22 +52,20 @@ function findGuest() {
     return;
   }
 
-  // ---------- SINGLE MATCH ----------
   if (matches.length === 1) {
-    showGuest(matches[0]);
+    displayGuest(matches[0]);
     return;
   }
 
-  // ---------- MULTIPLE MATCHES ----------
-  matches.sort((a,b) => a.table - b.table);
+  matches.sort((a, b) => a.table - b.table);
 
   let cards = "";
 
-  matches.forEach(g => {
+  matches.forEach(guest => {
     cards += `
       <div class="guest-card">
-        <div class="guest-name">${g.firstName} ${g.lastName}</div>
-        <div class="guest-table">Table ${g.table}</div>
+        <div class="guest-name">${guest.firstName} ${guest.lastName}</div>
+        <div class="guest-table">Table ${guest.table}</div>
       </div>
     `;
   });
@@ -88,13 +85,11 @@ function findGuest() {
       Here is the seating plan so you can see where everyone is seated.
     </p>
 
-    <img src="floorplan.png" class="floorplan" alt="Wedding Floor Plan">
+    <img src="floorplan.png" alt="Wedding Floor Plan" class="floorplan">
   `;
 }
 
-// ---------- PERSONAL WELCOME SCREEN ----------
-function showGuest(guest){
-
+function displayGuest(guest) {
   const result = document.getElementById("result");
 
   result.innerHTML = `
@@ -108,6 +103,6 @@ function showGuest(guest){
       We are so grateful you're here to celebrate this chapter with us.
     </p>
 
-    <img src="floorplan.png" class="floorplan" alt="Wedding Floor Plan">
+    <img src="floorplan.png" alt="Wedding Floor Plan" class="floorplan">
   `;
 }
