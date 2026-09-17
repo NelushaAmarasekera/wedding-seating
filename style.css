@@ -1,0 +1,242 @@
+/* ---------- COLOUR PALETTE ---------- */
+
+:root{
+    --beige:#F7F3EE;
+    --beige-dark:#ECE4DA;
+    --brown:#4B2E24;
+    --brown-light:#6B483A;
+    --gold:#B5966A;
+    --text:#5A4A42;
+    --white:#FFFFFF;
+}
+
+/* ---------- PAGE ---------- */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter', sans-serif;
+    background:linear-gradient(to bottom, #F8F5F1, #F2ECE4);
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:35px 18px;
+}
+
+/* ---------- CARD ---------- */
+
+.container{
+    width:100%;
+    max-width:720px;
+    background:rgba(255,255,255,0.92);
+    padding:55px 40px;
+    border-radius:28px;
+    box-shadow:0 12px 35px rgba(75,46,36,0.10);
+    border:1px solid rgba(181,150,106,0.20);
+    backdrop-filter:blur(6px);
+    text-align:center;
+}
+
+/* ---------- HEADER ---------- */
+
+.chapter{
+    letter-spacing:3px;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--gold);
+    margin-bottom:12px;
+}
+
+.welcome-heading{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    font-size:30px;
+    color:var(--brown-light);
+}
+
+.couple-names{
+    font-family:'Cormorant Garamond', serif;
+    font-size:62px;
+    font-weight:600;
+    color:var(--brown);
+    margin:6px 0 14px;
+}
+
+.divider{
+    width:70px;
+    height:1px;
+    background:var(--gold);
+    margin:22px auto;
+}
+
+.title{
+    font-family:'Cormorant Garamond', serif;
+    font-size:38px;
+    font-weight:600;
+    color:var(--brown);
+}
+
+.subtitle{
+    margin:16px 0 34px;
+    color:#7A6A61;
+    font-size:16px;
+    line-height:1.6;
+}
+
+/* ---------- INPUTS ---------- */
+
+input{
+    width:100%;
+    padding:18px;
+    margin-bottom:18px;
+    border:1.5px solid #D8CAB9;
+    background:#FEFCFA;
+    border-radius:14px;
+    font-size:16px;
+    color:var(--brown);
+    transition:0.25s ease;
+    font-family:'Inter', sans-serif;
+}
+
+input::placeholder{
+    color:#A08E84;
+}
+
+input:focus{
+    outline:none;
+    border-color:var(--brown);
+    box-shadow:0 0 0 4px rgba(75,46,36,0.08);
+}
+
+/* ---------- BUTTON ---------- */
+
+button{
+    margin-top:10px;
+    background:var(--brown);
+    color:white;
+    border:none;
+    padding:17px 42px;
+    border-radius:40px;
+    font-size:16px;
+    font-weight:500;
+    cursor:pointer;
+    transition:0.3s ease;
+    font-family:'Inter', sans-serif;
+    letter-spacing:0.3px;
+}
+
+button:hover{
+    background:#3A211A;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(75,46,36,0.18);
+}
+
+/* ---------- RESULT ---------- */
+
+#result{
+    margin-top:45px;
+    animation:fadeIn 0.6s ease;
+}
+
+/* Welcome text */
+
+#result h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:36px;
+    font-weight:600;
+    color:var(--brown);
+    margin-bottom:12px;
+}
+
+/* Table Number */
+
+#result h1{
+    font-family:'Cormorant Garamond', serif;
+    font-size:70px;
+    color:var(--brown);
+    margin:18px 0;
+    letter-spacing:1px;
+}
+
+/* Paragraph */
+
+#result p{
+    color:#74655C;
+    font-size:16px;
+    margin-bottom:26px;
+    line-height:1.6;
+}
+
+/* Not Found */
+
+#result h3{
+    font-family:'Cormorant Garamond', serif;
+    color:#7A3F30;
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+/* ---------- FLOOR PLAN ---------- */
+
+.floorplan{
+    width:100%;
+    max-width:610px;
+    border-radius:20px;
+    border:1px solid #E7DED3;
+    box-shadow:0 10px 28px rgba(75,46,36,0.10);
+    transition:0.3s ease;
+    cursor:pointer;
+}
+
+.floorplan:hover{
+    transform:scale(1.015);
+}
+
+/* ---------- ANIMATION ---------- */
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width:600px){
+
+    .container{
+        padding:40px 24px;
+        border-radius:22px;
+    }
+
+    .couple-names{
+        font-size:48px;
+    }
+
+    .welcome-heading{
+        font-size:24px;
+    }
+
+    .title{
+        font-size:32px;
+    }
+
+    #result h1{
+        font-size:58px;
+    }
+
+    #result h2{
+        font-size:30px;
+    }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Seating Plan | Nelusha & Ashan</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <p class="chapter">16 January 2027</p>
+
+    <h2 class="welcome-heading">Welcome to the wedding of</h2>
+
+    <h1 class="couple-names">Nelusha & Ashan</h1>
+
+    <div class="divider"></div>
+
+    <h3 class="title">Wedding Seating Plan</h3>
+
+    <p class="subtitle">
+      Please enter your first and last name to find your table.
+    </p>
+
+    <input
+      type="text"
+      id="firstName"
+      placeholder="First Name"
+    >
+
+    <input
+      type="text"
+      id="lastName"
+      placeholder="Last Name"
+    >
+
+    <button onclick="findGuest()">
+      Find My Table
+    </button>
+
+    <div id="result"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
